@@ -135,7 +135,7 @@ if ProsilicaOn
     ProsilicaPreview(0.5)
 end
 
-waitbar(100/100, waitin0)  
+waitbar(100/100, waiting)  
 close(waiting)
 
 set(findobj(Microdispensing,'tag','NextFish'), 'Callback', {@NextFish});
