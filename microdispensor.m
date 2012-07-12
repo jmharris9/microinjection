@@ -60,6 +60,7 @@ ProsilicaOn     = 1;
 % set(Microdispensing,'KeyPressFcn',{@MyKeyFunction})
 % set(Microdispensing, 'WindowScrollWheelFcn', {@testScrollWheel});
 
+waitbar(10/100,'Initiating syringe pump')
 
     if SyringePump
         syr= serial(['COM' num2str(SyringeCOM)],'Terminator','CR');
@@ -67,9 +68,8 @@ ProsilicaOn     = 1;
         fopen(syr);
     end
     
-waitbar(15/100)
-
     if PriorXY
+        waitbar(15/100,'Initiating XY stage')
         isempty(FirstTime)
         StageCOM = 14;
         XYStage= serial(['COM' num2str(StageCOM)],'Terminator','CR');
@@ -81,6 +81,7 @@ waitbar(15/100)
 
     %load APT
     if ThorlabZ
+        waitbar(25/100,'Initiating Thorlab Z stage')
         fig = figure('Position',[5 35 1272 912],'HandleVisibility','off','IntegerHandle','off');
         h = actxcontrol('MGMOTOR.MGMotorCtrl.1', [0 205 300 200], fig);
 
@@ -92,12 +93,14 @@ waitbar(15/100)
     end
     
     if FishWellStageOn
+        waitbar(35/100,'Initiating fish well stage')
         FishWellStage(101)
     end
 
-waitbar(50/100)    
+    
     
     if Photodetectoron
+        waitbar(50/100,'Initiating Photodetector')
         Photodetector=analoginput('nidaq','Dev3');
         set(Photodetector,'InputType','Differential');
         set(Photodetector,'SampleRate',2000)
@@ -112,22 +115,23 @@ waitbar(50/100)
 %         set(Photodetector,'TriggerConditionValue',0.7)
     end
     
-    pause(1)
+%    pause(1)
 
 waitbar(65/100)  
 
     FirstTime=0;
     save FirstTime FirstTime
     fprintf(syr,'/1v1000V1600c2000Ea200R')
-    pause(2.5)
+ %   pause(2.5)
 
-waitbar(85/100)    
     
 if Microscope
+    waitbar(75/100,'Initiating microscope')    
     AZ=actxserver('Nikon.MzMic.NikonMZ');
 end
 
 if ProsilicaOn
+    waitbar(85/100,'Initiating CCD')    
     ProsilicaPreview(0.5)
 end
 
