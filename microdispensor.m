@@ -60,7 +60,7 @@ ProsilicaOn     = 1;
 % set(Microdispensing,'KeyPressFcn',{@MyKeyFunction})
 % set(Microdispensing, 'WindowScrollWheelFcn', {@testScrollWheel});
 
-waitbar(10/100,'Initiating syringe pump')
+waitbar(10/100, waiting,'Initiating syringe pump')
 
     if SyringePump
         syr= serial(['COM' num2str(SyringeCOM)],'Terminator','CR');
@@ -69,7 +69,7 @@ waitbar(10/100,'Initiating syringe pump')
     end
     
     if PriorXY
-        waitbar(15/100,'Initiating XY stage')
+        waitbar(15/100, waiting,'Initiating XY stage')
         isempty(FirstTime)
         StageCOM = 14;
         XYStage= serial(['COM' num2str(StageCOM)],'Terminator','CR');
@@ -81,7 +81,7 @@ waitbar(10/100,'Initiating syringe pump')
 
     %load APT
     if ThorlabZ
-        waitbar(25/100,'Initiating Thorlab Z stage')
+        waitbar(25/100, waiting,'Initiating Thorlab Z stage')
         fig = figure('Position',[5 35 1272 912],'HandleVisibility','off','IntegerHandle','off');
         h = actxcontrol('MGMOTOR.MGMotorCtrl.1', [0 205 300 200], fig);
 
@@ -93,14 +93,14 @@ waitbar(10/100,'Initiating syringe pump')
     end
     
     if FishWellStageOn
-        waitbar(35/100,'Initiating fish well stage')
+        waitbar(35/100, waiting,'Initiating fish well stage')
         FishWellStage(101)
     end
 
     
     
     if Photodetectoron
-        waitbar(50/100,'Initiating Photodetector')
+        waitbar(50/100, waiting,'Initiating Photodetector')
         Photodetector=analoginput('nidaq','Dev3');
         set(Photodetector,'InputType','Differential');
         set(Photodetector,'SampleRate',2000)
@@ -117,7 +117,7 @@ waitbar(10/100,'Initiating syringe pump')
     
 %    pause(1)
 
-waitbar(65/100)  
+waitbar(65/100, waiting)  
 
     FirstTime=0;
     save FirstTime FirstTime
@@ -126,16 +126,16 @@ waitbar(65/100)
 
     
 if Microscope
-    waitbar(75/100,'Initiating microscope')    
+    waitbar(75/100, waiting,'Initiating microscope')    
     AZ=actxserver('Nikon.MzMic.NikonMZ');
 end
 
 if ProsilicaOn
-    waitbar(85/100,'Initiating CCD')    
+    waitbar(85/100, waiting,'Initiating CCD')    
     ProsilicaPreview(0.5)
 end
 
-waitbar(100/100)  
+waitbar(100/100, waitin0)  
 close(waiting)
 
 set(findobj(Microdispensing,'tag','NextFish'), 'Callback', {@NextFish});
